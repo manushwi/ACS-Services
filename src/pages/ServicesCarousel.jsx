@@ -85,16 +85,16 @@ export default function ServicesCarousel() {
     } else if (diff === 1) {
       // Second card
       return {
-        transform: 'translateX(-40px) translateY(-40px) scale(0.92) rotateY(-3deg)',
-        opacity: 0.6,
+        transform: 'translateX(20px) translateY(-40px) scale(0.92) rotateY(-3deg)',
+        opacity: 0.8,
         zIndex: 40,
         pointerEvents: 'auto'
       };
     } else if (diff === 2) {
       // Third card
       return {
-        transform: 'translateX(-80px) translateY(-80px) scale(0.84) rotateY(-6deg)',
-        opacity: 0.3,
+        transform: 'translateX(50px) translateY(-80px) scale(0.84) rotateY(-6deg)',
+        opacity: 0.6,
         zIndex: 30,
         pointerEvents: 'auto'
       };
@@ -251,7 +251,7 @@ export default function ServicesCarousel() {
                       className="w-3 h-3 rounded-full transition-all duration-300"
                       style={{
                         backgroundColor: currentCard.color,
-                        opacity: index === currentIndex ? 1 : 0.25,
+                        opacity: index === currentIndex ? 1 : 0.5,
                         transform: index === currentIndex ? 'scale(1.3)' : 'scale(1)'
                       }}
                     />
@@ -260,7 +260,7 @@ export default function ServicesCarousel() {
                         className="absolute inset-0 rounded-full animate-ping"
                         style={{
                           backgroundColor: currentCard.color,
-                          opacity: 0.4
+                          opacity: 0.3
                         }}
                       />
                     )}
