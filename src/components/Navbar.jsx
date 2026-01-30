@@ -1,44 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
-  motion,
-  AnimatePresence,
   useScroll,
   useMotionValueEvent,
+  motion,
 } from "framer-motion";
 
+const MotionDiv = motion.div;
 const navItems = [
-  { name: "Services", link: "#features" },
+  { name: "Services", link: "#services" },
   { name: "Pricing", link: "#pricing" },
-  { name: "Contact", link: "#contact" },
+  { name: "Gallery", link: "/gallery" },
+];
+
+const services = [
+  "Marble Polishing",
+  "Facade Cleaning",
+  "Sofa Cleaning",
+  "Carpet Cleaning",
+  "Floor Scrubbing",
+  "Tile & Grout Cleaning",
 ];
 
 const Navbar = () => {
   const { scrollYProgress } = useScroll();
-  const [visible, setVisible] = useState(true);
   const [scrolled, setScrolled] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [chooseOpen, setChooseOpen] = useState(false);
+  const [active, setActive] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useMotionValueEvent(scrollYProgress, "change", (current) => {
     if (typeof current === "number") {
-      const direction = current - (scrollYProgress.getPrevious() ?? 0);
-
       if (scrollYProgress.get() < 0.05) {
-        setVisible(true);
         setScrolled(false);
       } else {
         setScrolled(true);
-        setVisible(direction < 0);
       }
     }
   });
-const [active, setActive] = useState(null);
+  useEffect(() => {
+    const handler = (e) => setModalOpen(Boolean(e?.detail?.open));
+    window.addEventListener("modalOpen", handler);
+    return () => window.removeEventListener("modalOpen", handler);
+  }, []);
   return (
-    <AnimatePresence>
-      <motion.header
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: visible ? 0 : -80, opacity: visible ? 1 : 0 }}
-        exit={{ y: -80, opacity: 0 }}
-        transition={{ duration: 0.25, ease: "easeOut" }}
-        className="fixed top-6 inset-x-0 z-[5000] flex justify-center"
+    <>
+      <header
+        className={`fixed top-6 inset-x-0 ${modalOpen ? "z-40" : "z-[5000]"} flex justify-center`}
       >
         <div
           className={`
@@ -64,59 +74,126 @@ const [active, setActive] = useState(null);
 
           {/* Nav Links */}
           <nav
-      className="relative hidden md:flex items-center gap-2 px-2 py-1 rounded-full"
-      onMouseLeave={() => setActive(null)}
-    >
-      {/* Floating pill */}
-      {active && (
-        <motion.div
-          className="absolute inset-y-1 rounded-full bg-[#C6AC8F]"
-          layout
-          transition={{
-            type: "spring",
-            stiffness: 400,
-            damping: 30,
-          }}
-          style={{
-            left: active.left,
-            width: active.width,
-          }}
-        />
-      )}
-
-      {navItems.map((item) => (
-        <a
-          key={item.name}
-          href={item.link}
-          onMouseEnter={(e) => {
-            const rect = e.currentTarget.getBoundingClientRect();
-            const parent = e.currentTarget.parentElement.getBoundingClientRect();
-
-            setActive({
-              left: rect.left - parent.left,
-              width: rect.width,
-            });
-          }}
-          className="relative z-10 px-6 py-2 text-sm font-medium text-zinc-300 hover:text-[#0A0908] transition-colors"
-        >
-          {item.name}
-        </a>
-      ))}
-    </nav>
+            className="relative hidden md:flex items-center gap-2 px-2 py-1 rounded-full"
+            onMouseLeave={() => setActive(null)}
+          >
+            {active && (
+              <MotionDiv
+                className="absolute inset-y-1 rounded-full bg-[#C6AC8F]"
+                layout
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                style={{
+                  left: active.left,
+                  width: active.width,
+                }}
+              />
+            )}
+            {navItems.map((item) => (
+              <a
+                key={item.name}
+                href={item.link}
+                onClick={(e) => {
+                  if (item.link.startsWith("#")) {
+                    e.preventDefault();
+                    const id = item.link.slice(1);
+                    if (location.pathname !== "/") {
+                      navigate("/");
+                      setTimeout(() => {
+                        try {
+                          const el = document.querySelector(`#${id}`);
+                          el?.scrollIntoView({ behavior: "smooth", block: "start" });
+                        } catch (e) { console.error(e); }
+                      }, 50);
+                    } else {
+                      try {
+                        const el = document.querySelector(`#${id}`);
+                        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+                      } catch (e) { console.error(e); }
+                    }
+                  } else if (item.link.startsWith("/")) {
+                    e.preventDefault();
+                    navigate(item.link);
+                  }
+                }}
+                onMouseEnter={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const parent = e.currentTarget.parentElement.getBoundingClientRect();
+                  setActive({
+                    left: rect.left - parent.left,
+                    width: rect.width,
+                  });
+                }}
+                className="relative z-10 px-6 py-2 text-sm font-medium text-zinc-300 hover:text-[#0A0908] transition-colors"
+              >
+                {item.name}
+              </a>
+            ))}
+          </nav>
 
           {/* Actions */}
           <div className="flex items-center gap-4">
-            <button className="text-sm font-medium text-white hover:text-zinc-300 transition hidden sm:block">
+            <button
+              onClick={() => navigate("/admin/login")}
+              className="text-sm font-medium text-white hover:text-zinc-300 transition hidden sm:block"
+              title="Admins only"
+            >
               Login
             </button>
 
-            <button className="px-5 py-2 rounded-full bg-[#C6AC8F] text-black text-sm font-semibold">
+            <button
+              onClick={() => {
+                setChooseOpen(true);
+                try { window.dispatchEvent(new CustomEvent("modalOpen", { detail: { open: true } })); } catch (e) { console.error(e); }
+              }}
+              className="px-5 py-2 rounded-full bg-[#C6AC8F] text-black text-sm font-semibold"
+            >
               Book a call
             </button>
           </div>
         </div>
-      </motion.header>
-    </AnimatePresence>
+      </header>
+    {chooseOpen && (
+      <div className="fixed inset-0 z-[6000] flex items-center justify-center">
+        <div className="absolute inset-0 bg-black/50" onClick={() => { setChooseOpen(false); try { window.dispatchEvent(new CustomEvent("modalOpen", { detail: { open: false } })); } catch (e) { console.error(e); } }} />
+        <div className="relative z-10 w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl">
+          <div className="text-lg font-semibold text-[#2b1d14] mb-4">To book a call first select a service</div>
+          <div className="grid grid-cols-1 gap-2 mb-4">
+            {services.map((svc) => (
+              <button
+                key={svc}
+                onClick={() => {
+                  setChooseOpen(false);
+                  try {
+                    window.dispatchEvent(new CustomEvent("modalOpen", { detail: { open: false } }));
+                    window.dispatchEvent(new CustomEvent("toast", { detail: { message: `Selected: ${svc}` } }));
+                  } catch (e) { console.error(e); }
+                  navigate("/");
+                  setTimeout(() => {
+                    try {
+                      const el = document.querySelector("#pricing");
+                      el?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    } catch (e) { console.error(e); }
+                  }, 50);
+                }}
+                className="px-4 py-2 rounded-lg bg-[#f7efe5] text-[#2b1d14] text-sm border border-[#2b1d14]/20 hover:bg-[#f7efe5]/80 text-left"
+              >
+                {svc}
+              </button>
+            ))}
+          </div>
+          <button
+            onClick={() => {
+              setChooseOpen(false);
+              try { window.dispatchEvent(new CustomEvent("modalOpen", { detail: { open: false } })); } catch (e) { console.error(e); }
+            }}
+            className="w-full px-4 py-2 rounded-lg bg-[#2b1d14] text-[#f7efe5] text-sm font-semibold hover:bg-[#2b1d14]/90"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    )}
+    </>
   );
 };
 

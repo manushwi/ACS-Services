@@ -9,52 +9,52 @@ export default function ServicesCarousel() {
       id: 1,
       title: 'Marble Diamond Polishing',
       description: 'Experience flawless marble diamond polishing that restores natural shine and elegance. Using advanced techniques, we enhance durability and create a smooth, mirror-like finish that elevates your space with lasting luxury.',
-      image: 'https://www.paamconstruction.com/wp-content/uploads/2023/03/Marble-Polishing-Image-for-true-cost.png',
+      image: '/srv1.png',
       color: '#FF6B6B',
       bgColor: '#FFE5E5',
       accentColor: '#FF4444',
-      bgImage: 'https://images.pexels.com/photos/3847502/pexels-photo-3847502.jpeg'
+      bgImage: '/bg1.jpeg'
     },
     {
       id: 2,
       title: 'Facade Cleaning',
       description: 'Restore the brilliance of your building with our professional facade cleaning. We remove dirt, stains, and pollutants to enhance appearance, protect surfaces, and maintain a polished, long-lasting exterior.',
-      image: 'https://images.pexels.com/photos/34517611/pexels-photo-34517611.jpeg',
+      image: '/svr2.jpeg',
       color: '#4ECDC4',
       bgColor: '#E0F7F5',
       accentColor: '#2AB5AC',
-      bgImage: 'https://images.pexels.com/photos/34552446/pexels-photo-34552446.jpeg'
+      bgImage: '/bg2.jpeg'
     },
     {
       id: 3,
       title: 'Wooden Floor Polishing',
       description: 'Revive the natural beauty of your wooden floors with our expert cleaning services. We gently remove dirt and wear while enhancing shine, durability, and warmth for a refined, long-lasting finish.',
-      image: 'https://images.pexels.com/photos/9462167/pexels-photo-9462167.jpeg',
+      image: '/svr3.jpeg',
       color: '#95E1D3',
       bgColor: '#E8F9F6',
       accentColor: '#6FD4C3',
-      bgImage: 'https://images.pexels.com/photos/9188911/pexels-photo-9188911.jpeg'
+      bgImage: '/bg3.jpeg'
     },
     {
       id: 4,
       title: 'Sofa Cleaning',
       description: 'Refresh your sofa with our professional cleaning service that removes deep-seated dirt, stains, and allergens. We restore softness, comfort, and freshness, giving your upholstery a clean, elegant, and inviting feel.',
-      image: 'https://images.pexels.com/photos/4401538/pexels-photo-4401538.jpeg',
+      image: '/svr4.jpeg',
       color: '#F38181',
       bgColor: '#FFEFEF',
       accentColor: '#EF5A5A',
-      bgImage: 'https://images.pexels.com/photos/6947284/pexels-photo-6947284.jpeg'
+      bgImage: '/bg4.jpeg'
 
     },
     {
       id: 5,
       title: 'Carpet Cleaning',
       description: 'Restore freshness and elegance to your carpets with our professional cleaning service. We eliminate deep dirt, stains, and allergens, reviving texture, color, and comfort for a clean, refined finish.',
-      image: 'https://images.pexels.com/photos/4176300/pexels-photo-4176300.jpeg',
+      image: '/svr5.jpeg',
       color: '#A8E6CF',
       bgColor: '#F0FCF7',
       accentColor: '#7FD9B3',
-      bgImage: 'https://images.pexels.com/photos/6835080/pexels-photo-6835080.jpeg'
+      bgImage: '/bg5.jpeg'
 
     }
   ];
@@ -112,7 +112,7 @@ export default function ServicesCarousel() {
   const currentCard = cards[currentIndex];
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <div id='services' className="min-h-screen relative overflow-hidden">
       {/* BACKGROUND IMAGE TRANSITION */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         {cards.map((card, index) => (
@@ -127,8 +127,14 @@ export default function ServicesCarousel() {
             }}
           />
         ))}
+        {/* <div
+          className="w-full h-full absolute z-10 transition-all duration-300"
+          style={{
+            backgroundColor: currentCard.color,
+            opacity: "0.4"
+          }}
+        /> */}
 
-        {/* Dark overlay for readability */}
       </div>
 
 
