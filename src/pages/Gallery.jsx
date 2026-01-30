@@ -41,7 +41,7 @@ export default function Gallery() {
               onClick={() => setOpenIndex(idx)}
               className="mb-4 block w-full rounded-xl overflow-hidden focus:outline-none"
             >
-              <img src={src} alt="" className="w-full h-auto object-cover hover:opacity-90 transition" />
+              <img src={src} alt="" className="w-full h-auto object-cover hover:opacity-90 transition" loading="lazy" />
             </button>
           ))}
         </div>

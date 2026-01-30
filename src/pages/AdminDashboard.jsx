@@ -70,26 +70,38 @@ export default function AdminDashboard() {
   if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   if (error) return <div className="min-h-screen flex items-center justify-center text-red-600">{error}</div>;
 
-  const handleApprove = async (index) => {
-    setApproving(index);
+  const openWhatsApp = (phoneNumber, message) => {
+    // Clean phone number: remove spaces, dashes, parentheses, plus signs
+    const cleanedPhone = phoneNumber.replace(/[\s-()+]/g, '');
+    // URL encode the message
+    const encodedMessage = encodeURIComponent(message);
+    // Open WhatsApp Business with pre-filled message
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${cleanedPhone}&text=${encodedMessage}`;
+    window.open(whatsappUrl, '_blank');
+  };
+
+  const handleApprove = async (itemId) => {
+    const item = data.find(item => item.id === itemId);
+    if (!item) return;
+    setApproving(itemId);
     try {
-      const id = data[index]?.id;
-      if (!id) throw new Error("Missing registration id");
+      if (!itemId) throw new Error("Missing registration id");
       const now = new Date().toISOString();
       const { error: err } = await supabase
         .from("registrations")
         .update({ status: "approved", approved_at: now })
-        .eq("id", id);
+        .eq("id", itemId);
       if (err) {
-        setData((prev) =>
-          prev.map((item, i) => (i === index ? { ...item, status: "approved", approved_at: now } : item))
-        );
-      } else {
-        setData((prev) =>
-          prev.map((item, i) => (i === index ? { ...item, status: "approved", approved_at: now } : item))
-        );
+        throw err;
       }
+      setData((prev) =>
+        prev.map((item) => (item.id === itemId ? { ...item, status: "approved", approved_at: now } : item))
+      );
       try { window.dispatchEvent(new CustomEvent("toast", { detail: { message: "Marked as approved" } })); } catch (e) { console.error(e); }
+      // Open WhatsApp with approval message
+      if (item.phone) {
+        openWhatsApp(item.phone, "Your registration is approved");
+      }
     } catch (err) {
       alert(err.message || String(err));
     } finally {
@@ -97,27 +109,29 @@ export default function AdminDashboard() {
     }
   };
 
-  const handleReject = async (index) => {
+  const handleReject = async (itemId) => {
+    const item = data.find(item => item.id === itemId);
+    if (!item) return;
     if (!confirm("Reject this registration?")) return;
-    setRejecting(index);
+    setRejecting(itemId);
     try {
-      const id = data[index]?.id;
-      if (!id) throw new Error("Missing registration id");
+      if (!itemId) throw new Error("Missing registration id");
       const now = new Date().toISOString();
       const { error: err } = await supabase
         .from("registrations")
         .update({ status: "rejected", rejected_at: now })
-        .eq("id", id);
+        .eq("id", itemId);
       if (err) {
-        setData((prev) =>
-          prev.map((item, i) => (i === index ? { ...item, status: "rejected", rejected_at: now } : item))
-        );
-      } else {
-        setData((prev) =>
-          prev.map((item, i) => (i === index ? { ...item, status: "rejected", rejected_at: now } : item))
-        );
+        throw err;
       }
+      setData((prev) =>
+        prev.map((item) => (item.id === itemId ? { ...item, status: "rejected", rejected_at: now } : item))
+      );
       try { window.dispatchEvent(new CustomEvent("toast", { detail: { message: "Marked as rejected" } })); } catch (e) { console.error(e); }
+      // Open WhatsApp with rejection message
+      if (item.phone) {
+        openWhatsApp(item.phone, "Your registration is rejected");
+      }
     } catch (err) {
       alert(err.message || String(err));
     } finally {
@@ -209,30 +223,42 @@ export default function AdminDashboard() {
                 <span className="text-xs text-[#2b1d14]/60">{new Date(item.created_at ?? item.createdAt).toLocaleString()}</span>
               </div>
               <div className={`space-y-2 text-sm text-[#2b1d14] ${filter === "all" && (item.status || "pending") === "rejected" ? "line-through" : ""}`}>
-                <div><span className="font-semibold">Phone:</span> {item.phone}</div>
+                <div>
+                  <span className="font-semibold">Phone:</span>{" "}
+                  <a 
+                    href={`tel:${item.phone}`} 
+                    className="text-blue-600 hover:text-blue-800 underline"
+                  >
+                    {item.phone}
+                  </a>
+                </div>
                 <div><span className="font-semibold">Date of Work:</span> {item.date}</div>
-                <div><span className="font-semibold">Units:</span> {item.units}</div>
+                <div>
+                  <span className="font-semibold">
+                    {item.category?.toLowerCase() === "sofa cleaning" ? "Units:" : "Area (sq.ft):"}
+                  </span> {item.units}
+                </div>
                 <div><span className="font-semibold">Address:</span> {item.address}</div>
                 <div><span className="font-semibold">Category:</span> {item.category}</div>
               </div>
               <div className="mt-4 flex gap-3 justify-end">
                 <button
-                  onClick={() => handleApprove(index)}
+                  onClick={() => handleApprove(item.id)}
                   className="px-3 py-1.5 rounded-md bg-green-600 text-white text-xs font-semibold hover:bg-green-700 disabled:opacity-60"
-                  disabled={approving === index || (item.status || "pending") !== "pending"}
+                  disabled={approving === item.id || (item.status || "pending") !== "pending"}
                 >
-                  {approving === index
+                  {approving === item.id
                     ? "Approving..."
                     : (item.status || "pending") === "approved"
                       ? "Approved"
                       : "Approve"}
                 </button>
                 <button
-                  onClick={() => handleReject(index)}
+                  onClick={() => handleReject(item.id)}
                   className="px-3 py-1.5 rounded-md bg-red-500 text-white text-xs font-semibold hover:bg-red-700 disabled:opacity-60"
-                  disabled={rejecting === index || (item.status || "pending") !== "pending"}
+                  disabled={rejecting === item.id || (item.status || "pending") !== "pending"}
                 >
-                  {rejecting === index
+                  {rejecting === item.id
                     ? "Rejecting..."
                     : (item.status || "pending") === "rejected"
                       ? "Rejected"

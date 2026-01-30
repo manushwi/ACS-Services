@@ -164,6 +164,7 @@ export default function ServicesCarousel() {
                         src={card.image}
                         alt={card.title}
                         className="w-full h-full object-cover"
+                        loading="lazy"
                       />
 
                       {/* Card Number Badge */}

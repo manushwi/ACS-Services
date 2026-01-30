@@ -65,10 +65,10 @@ const Navbar = () => {
           {/* Logo */}
           <a href="/" className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-lg flex items-center justify-center">
-              <img src="/logo.png" alt="" />
+              <img src="/logo.png" alt="ACS Services Logo" loading="lazy" />
             </div>
             <span className="w-10 h-10 flex justify-center items-center font-semibold text-base h">
-              <img src="/logotext.png" alt="" />
+              <img src="/logotext.png" alt="ACS Services" loading="lazy" />
             </span>
           </a>
 

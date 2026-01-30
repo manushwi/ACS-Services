@@ -14,6 +14,7 @@ const ServiceCard = ({ image, title, description, price, buttonText }) => {
           src={image} 
           alt={title}
           className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
+          loading="lazy"
         />
         {/* Sophisticated Overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/60 to-transparent"></div>

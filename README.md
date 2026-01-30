@@ -40,14 +40,17 @@ create table if not exists public.registrations (
   date text not null,
   units text not null,
   address text not null,
-  category text not null
+  category text not null,
+  status text default 'pending',
+  approved_at timestamp with time zone,
+  rejected_at timestamp with time zone
 );
 
 -- Enable Row Level Security (recommended)
 alter table public.registrations enable row level security;
 
 -- RLS policies
--- Dashboard should require auth for reading/deleting.
+-- Dashboard should require auth for reading/updating/deleting.
 -- Public form submissions should be allowed anonymously.
 
 create policy "allow read for authenticated" on public.registrations
@@ -56,8 +59,25 @@ create policy "allow read for authenticated" on public.registrations
 create policy "allow insert for anon" on public.registrations
   for insert with check (auth.role() in ('anon','authenticated'));
 
+create policy "allow update for authenticated" on public.registrations
+  for update using (auth.role() = 'authenticated');
+
 create policy "allow delete for authenticated" on public.registrations
   for delete using (auth.role() = 'authenticated');
+```
+
+**Note:** If you already have the `registrations` table, you need to add the missing columns. Run this migration SQL:
+
+```
+-- Add status and timestamp columns if they don't exist
+alter table public.registrations 
+  add column if not exists status text default 'pending',
+  add column if not exists approved_at timestamp with time zone,
+  add column if not exists rejected_at timestamp with time zone;
+
+-- Add UPDATE policy if it doesn't exist
+create policy "allow update for authenticated" on public.registrations
+  for update using (auth.role() = 'authenticated');
 ```
 
 5) Run the app
@@ -68,12 +88,20 @@ pnpm dev
 
 Open http://localhost:5173/ and use your admin email/password to log in.
 
+
 ## Implementation Notes
 
 - Auth: `src/lib/supabaseClient.js` initializes the Supabase client
 - Login: `src/pages/AdminLogin.jsx` uses `supabase.auth.signInWithPassword`
 - Dashboard: `src/pages/AdminDashboard.jsx` queries and deletes from `public.registrations`
 - Form: `src/components/ServiceFormDialog.jsx` inserts new rows into `public.registrations`
+
+## Features
+
+- ✅ Dynamic form labels: Shows "Units" for sofa cleaning, "Area (sq.ft)" for other services
+- ✅ Clickable phone numbers: Phone numbers in dashboard are clickable to make calls
+- ✅ WhatsApp Business integration: Approve/Reject buttons open WhatsApp Business with pre-filled messages
+- ✅ Status tracking: Approved/Rejected status saved in database with timestamps
 
 ## Optional: Secure Backend Endpoints
 If you later add a Node server, you can verify Supabase JWTs server-side to restrict access to endpoints. For now, all data ops happen directly via the Supabase client.
