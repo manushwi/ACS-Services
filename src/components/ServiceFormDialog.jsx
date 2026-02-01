@@ -52,8 +52,7 @@ const ServiceFormDialog = ({ open, onOpenChange, serviceName }) => {
           units: payload.units,
           address: payload.address,
           category: payload.category,
-        })
-        .select();
+        });
       
       if (insertError) {
         console.error("Insert error:", insertError);
