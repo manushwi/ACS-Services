@@ -1,21 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 
 const LandingPage = () => {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const cards = [
+    {
+      id: 1,
+      color: '#000000',
+      bgImage: '/main1.jpg'
+    },
+    {
+      id: 2,
+      color: '#000000',
+      bgImage: '/main2.jpg'
+    }
+  ]
 
 
 
 
   return (
     <div className="min-h-screen relative w-full flex items-end justify-center overflow-hidden">
+      {/* BACKGROUND IMAGE TRANSITION */}
       <div className="absolute inset-0 z-0 overflow-hidden">
+        {/* {cards.map((card, index) => ( */}
           <div
+            // key={card.id}
             className="absolute inset-0 h-full w-full transition-opacity duration-1000 ease-in-out"
             style={{
               backgroundImage: `url("/main3.png")`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
+              // opacity: index === currentIndex ? 1 : 0,
             }}
           />
+        {/* ))} */}
       </div>
 
       <div className="absolute inset-0 bg-black/10 z-10 flex justify-center items-center">
@@ -54,6 +75,37 @@ const LandingPage = () => {
           animationFillMode: 'forwards'
         }}
       >
+        {/* Dot Navigation */}
+        {/* <div className='flex justify-center items-center mb-10'>
+          <div className="flex gap-3">
+            {cards.map((card, index) => (
+              <button
+                key={card.id}
+                onClick={() => goToCard(index)}
+                className="relative transition-all duration-300 focus:outline-none group"
+                aria-label={`Go to card ${index + 1}`}
+              >
+                <div
+                  className="w-5 h-5 rounded-full transition-all duration-300"
+                  style={{
+                    backgroundColor: currentCard.color,
+                    opacity: index === currentIndex ? 1 : 0.25,
+                    transform: index === currentIndex ? 'scale(1.3)' : 'scale(1)'
+                  }}
+                />
+                {index === currentIndex && (
+                  <div
+                    className="absolute inset-0 rounded-full animate-ping"
+                    style={{
+                      backgroundColor: currentCard.color,
+                      opacity: 0.4
+                    }}
+                  />
+                )}
+              </button>
+            ))}
+          </div>
+        </div> */}
       </div>
     </div>
   )
