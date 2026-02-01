@@ -10,6 +10,8 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard';
 import Gallery from './pages/Gallery';
+import FaqPage from './pages/Faqpage';
+import Follow from './components/Follow';
 
 
 function App() {
@@ -28,6 +30,7 @@ function RouterContent() {
   return (
     <>
       {!isAdminRoute && <ResizableNavbar />}
+      {!isAdminRoute && <Follow />}
       <Routes>
         <Route
           path="/"
@@ -36,6 +39,7 @@ function RouterContent() {
               <LandingPage />
               <ServicesCarousel />
               <ServicesBento />
+              <FaqPage />
               <Footer />
             </>
           }

@@ -170,7 +170,7 @@ export default function ServicesCarousel() {
                       {/* Card Number Badge */}
                       <div
                         className="absolute top-6 right-6 w-12 h-12 rounded-full flex items-center justify-center text-white font-bold text-lg shadow-lg"
-                        style={{ backgroundColor: card.color }}
+                        style={{ backgroundColor: "#C6AC8F" }}
                       >
                         {String(index + 1).padStart(2, '0')}
                       </div>
@@ -239,7 +239,7 @@ export default function ServicesCarousel() {
               <button
                 onClick={prevCard}
                 className="w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg hover:shadow-xl"
-                style={{ backgroundColor: currentCard.color }}
+                style={{ backgroundColor: "#C6AC8F" }}
                 aria-label="Previous card"
               >
                 <ChevronLeft className="w-6 h-6 text-white" strokeWidth={3} />
@@ -257,7 +257,7 @@ export default function ServicesCarousel() {
                     <div
                       className="w-3 h-3 rounded-full transition-all duration-300"
                       style={{
-                        backgroundColor: currentCard.color,
+                        backgroundColor: "#C6AC8F",
                         opacity: index === currentIndex ? 1 : 0.5,
                         transform: index === currentIndex ? 'scale(1.3)' : 'scale(1)'
                       }}
@@ -266,7 +266,7 @@ export default function ServicesCarousel() {
                       <div
                         className="absolute inset-0 rounded-full animate-ping"
                         style={{
-                          backgroundColor: currentCard.color,
+                          backgroundColor: "#C6AC8F",
                           opacity: 0.3
                         }}
                       />
@@ -279,7 +279,7 @@ export default function ServicesCarousel() {
               <button
                 onClick={nextCard}
                 className="w-14 h-14 rounded-full flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg hover:shadow-xl"
-                style={{ backgroundColor: currentCard.color }}
+                style={{ backgroundColor: "#C6AC8F" }}
                 aria-label="Next card"
               >
                 <ChevronRight className="w-6 h-6 text-white" strokeWidth={3} />
@@ -288,7 +288,7 @@ export default function ServicesCarousel() {
 
             {/* Card counter */}
             <div className="text-sm text-gray-500 font-medium">
-              <span style={{ color: currentCard.accentColor }} className="font-bold">
+              <span style={{ color: "#C6AC8F" }} className="font-bold">
                 {String(currentIndex + 1).padStart(2, '0')}
               </span>
               {' / '}

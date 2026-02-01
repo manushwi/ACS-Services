@@ -100,7 +100,12 @@ export default function AdminDashboard() {
       try { window.dispatchEvent(new CustomEvent("toast", { detail: { message: "Marked as approved" } })); } catch (e) { console.error(e); }
       // Open WhatsApp with approval message
       if (item.phone) {
-        openWhatsApp(item.phone, "Your registration is approved");
+        openWhatsApp(item.phone, "Hello " + item.name + "," +
+          "Your registration has been successfully confirmed for " + item.category + " scheduled on " + item.date + ". " +
+          "We look forward to seeing you!" + 
+          "Regards," +
+          "Team ACS"
+        );
       }
     } catch (err) {
       alert(err.message || String(err));
@@ -130,8 +135,13 @@ export default function AdminDashboard() {
       try { window.dispatchEvent(new CustomEvent("toast", { detail: { message: "Marked as rejected" } })); } catch (e) { console.error(e); }
       // Open WhatsApp with rejection message
       if (item.phone) {
-        openWhatsApp(item.phone, "Your registration is rejected");
-      }
+        openWhatsApp(item.phone, "Hello " + item.name + "," +
+          "Your registration for " + item.category + " scheduled on " + item.date + " has been rejected. " +
+          "We apologize for the inconvenience. " +
+          "Regards," +
+          "Team ACS"
+        );
+      } 
     } catch (err) {
       alert(err.message || String(err));
     } finally {

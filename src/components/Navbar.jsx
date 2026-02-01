@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import {
-  useScroll,
-  useMotionValueEvent,
-  motion,
-} from "framer-motion";
+import { useScroll, useMotionValueEvent, motion } from "framer-motion";
+import { FiMenu, FiX } from "react-icons/fi"; // Hamburger and close icons
 
 const MotionDiv = motion.div;
+
 const navItems = [
   { name: "Services", link: "#services" },
   { name: "Pricing", link: "#pricing" },
@@ -28,31 +26,59 @@ const Navbar = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [chooseOpen, setChooseOpen] = useState(false);
   const [active, setActive] = useState(null);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
 
   useMotionValueEvent(scrollYProgress, "change", (current) => {
     if (typeof current === "number") {
-      if (scrollYProgress.get() < 0.05) {
-        setScrolled(false);
-      } else {
-        setScrolled(true);
-      }
+      setScrolled(scrollYProgress.get() >= 0.05);
     }
   });
+
   useEffect(() => {
     const handler = (e) => setModalOpen(Boolean(e?.detail?.open));
     window.addEventListener("modalOpen", handler);
     return () => window.removeEventListener("modalOpen", handler);
   }, []);
+
+  const handleNavClick = (item) => (e) => {
+    if (item.link.startsWith("#")) {
+      e.preventDefault();
+      const id = item.link.slice(1);
+      if (location.pathname !== "/") {
+        navigate("/");
+        setTimeout(() => {
+          try {
+            const el = document.querySelector(`#${id}`);
+            el?.scrollIntoView({ behavior: "smooth", block: "start" });
+          } catch (e) { console.error(e); }
+        }, 50);
+      } else {
+        try {
+          const el = document.querySelector(`#${id}`);
+          el?.scrollIntoView({ behavior: "smooth", block: "start" });
+        } catch (e) { console.error(e); }
+      }
+      setMobileMenuOpen(false);
+    } else if (item.link.startsWith("/")) {
+      e.preventDefault();
+      navigate(item.link);
+      setMobileMenuOpen(false);
+    }
+  };
+
   return (
     <>
       <header
-        className={`fixed top-6 inset-x-0 ${modalOpen ? "z-40" : "z-[5000]"} flex justify-center`}
+        className={`fixed top-6 inset-x-0 ${
+          modalOpen ? "z-40" : "z-[5000]"
+        } flex justify-center`}
       >
         <div
           className={`
-            flex items-center justify-between gap-10
+            flex items-center justify-between gap-4
             px-6 py-3
             rounded-full
             bg-[#0A0908]/70 backdrop-blur-xl
@@ -67,12 +93,12 @@ const Navbar = () => {
             <div className="w-10 h-10 rounded-lg flex items-center justify-center">
               <img src="/logo.png" alt="ACS Services Logo" loading="lazy" />
             </div>
-            <span className="w-10 h-10 flex justify-center items-center font-semibold text-base h">
+            <span className="w-10 h-10 flex justify-center items-center font-semibold text-base">
               <img src="/logotext.png" alt="ACS Services" loading="lazy" />
             </span>
           </a>
 
-          {/* Nav Links */}
+          {/* Desktop Nav */}
           <nav
             className="relative hidden md:flex items-center gap-2 px-2 py-1 rounded-full"
             onMouseLeave={() => setActive(null)}
@@ -92,29 +118,7 @@ const Navbar = () => {
               <a
                 key={item.name}
                 href={item.link}
-                onClick={(e) => {
-                  if (item.link.startsWith("#")) {
-                    e.preventDefault();
-                    const id = item.link.slice(1);
-                    if (location.pathname !== "/") {
-                      navigate("/");
-                      setTimeout(() => {
-                        try {
-                          const el = document.querySelector(`#${id}`);
-                          el?.scrollIntoView({ behavior: "smooth", block: "start" });
-                        } catch (e) { console.error(e); }
-                      }, 50);
-                    } else {
-                      try {
-                        const el = document.querySelector(`#${id}`);
-                        el?.scrollIntoView({ behavior: "smooth", block: "start" });
-                      } catch (e) { console.error(e); }
-                    }
-                  } else if (item.link.startsWith("/")) {
-                    e.preventDefault();
-                    navigate(item.link);
-                  }
-                }}
+                onClick={handleNavClick(item)}
                 onMouseEnter={(e) => {
                   const rect = e.currentTarget.getBoundingClientRect();
                   const parent = e.currentTarget.parentElement.getBoundingClientRect();
@@ -143,56 +147,94 @@ const Navbar = () => {
             <button
               onClick={() => {
                 setChooseOpen(true);
-                try { window.dispatchEvent(new CustomEvent("modalOpen", { detail: { open: true } })); } catch (e) { console.error(e); }
+                try {
+                  window.dispatchEvent(new CustomEvent("modalOpen", { detail: { open: true } }));
+                } catch (e) { console.error(e); }
               }}
               className="px-5 py-2 rounded-full bg-[#C6AC8F] text-black text-sm font-semibold"
             >
               Book a call
             </button>
+
+            {/* Mobile Hamburger */}
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden text-white text-2xl"
+            >
+              {mobileMenuOpen ? <FiX /> : <FiMenu />}
+            </button>
           </div>
         </div>
-      </header>
-    {chooseOpen && (
-      <div className="fixed inset-0 z-[6000] flex items-center justify-center">
-        <div className="absolute inset-0 bg-black/50" onClick={() => { setChooseOpen(false); try { window.dispatchEvent(new CustomEvent("modalOpen", { detail: { open: false } })); } catch (e) { console.error(e); } }} />
-        <div className="relative z-10 w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl">
-          <div className="text-lg font-semibold text-[#2b1d14] mb-4">To book a call first select a service</div>
-          <div className="grid grid-cols-1 gap-2 mb-4">
-            {services.map((svc) => (
-              <button
-                key={svc}
-                onClick={() => {
-                  setChooseOpen(false);
-                  try {
-                    window.dispatchEvent(new CustomEvent("modalOpen", { detail: { open: false } }));
-                    window.dispatchEvent(new CustomEvent("toast", { detail: { message: `Selected: ${svc}` } }));
-                  } catch (e) { console.error(e); }
-                  navigate("/");
-                  setTimeout(() => {
-                    try {
-                      const el = document.querySelector("#pricing");
-                      el?.scrollIntoView({ behavior: "smooth", block: "start" });
-                    } catch (e) { console.error(e); }
-                  }, 50);
-                }}
-                className="px-4 py-2 rounded-lg bg-[#f7efe5] text-[#2b1d14] text-sm border border-[#2b1d14]/20 hover:bg-[#f7efe5]/80 text-left"
+
+        {/* Mobile Menu */}
+        {mobileMenuOpen && (
+          <div className="absolute top-full right-0 mt-2 w-56 bg-[#0A0908]/90 backdrop-blur-xl rounded-lg shadow-lg flex flex-col p-4 gap-2 z-[5001]">
+            {navItems.map((item) => (
+              <a
+                key={item.name}
+                href={item.link}
+                onClick={handleNavClick(item)}
+                className="px-4 py-2 text-sm text-zinc-200 hover:text-[#C6AC8F] rounded transition-colors"
               >
-                {svc}
-              </button>
+                {item.name}
+              </a>
             ))}
           </div>
-          <button
+        )}
+      </header>
+
+      {/* Service Selection Modal */}
+      {chooseOpen && (
+        <div className="fixed inset-0 z-[6000] flex items-center justify-center">
+          <div
+            className="absolute inset-0 bg-black/50"
             onClick={() => {
               setChooseOpen(false);
-              try { window.dispatchEvent(new CustomEvent("modalOpen", { detail: { open: false } })); } catch (e) { console.error(e); }
+              try {
+                window.dispatchEvent(new CustomEvent("modalOpen", { detail: { open: false } }));
+              } catch (e) { console.error(e); }
             }}
-            className="w-full px-4 py-2 rounded-lg bg-[#2b1d14] text-[#f7efe5] text-sm font-semibold hover:bg-[#2b1d14]/90"
-          >
-            Close
-          </button>
+          />
+          <div className="relative z-10 w-full max-w-md rounded-3xl bg-white p-6 shadow-2xl">
+            <div className="text-lg font-semibold text-[#2b1d14] mb-4">
+              To book a call first select a service
+            </div>
+            <div className="grid grid-cols-1 gap-2 mb-4">
+              {services.map((svc) => (
+                <button
+                  key={svc}
+                  onClick={() => {
+                    setChooseOpen(false);
+                    try {
+                      window.dispatchEvent(new CustomEvent("modalOpen", { detail: { open: false } }));
+                      window.dispatchEvent(new CustomEvent("toast", { detail: { message: `Selected: ${svc}` } }));
+                    } catch (e) { console.error(e); }
+                    navigate("/");
+                    setTimeout(() => {
+                      try {
+                        const el = document.querySelector("#pricing");
+                        el?.scrollIntoView({ behavior: "smooth", block: "start" });
+                      } catch (e) { console.error(e); }
+                    }, 50);
+                  }}
+                  className="px-4 py-2 rounded-lg bg-[#f7efe5] text-[#2b1d14] text-sm border border-[#2b1d14]/20 hover:bg-[#f7efe5]/80 text-left"
+                >
+                  {svc}
+                </button>
+              ))}
+            </div>
+            <button
+              onClick={() => {
+                setChooseOpen(false);
+                try { window.dispatchEvent(new CustomEvent("modalOpen", { detail: { open: false } })); } catch (e) { console.error(e); }
+              }}
+              className="w-full px-4 py-2 rounded-lg bg-[#2b1d14] text-[#f7efe5] text-sm font-semibold hover:bg-[#2b1d14]/90"
+            >
+              Close
+            </button>
+          </div>
         </div>
-      </div>
-    )}
+      )}
     </>
   );
 };

@@ -1,4 +1,4 @@
-
+const currentYear = new Date().getFullYear();
 
 const Footer = () => {
   return (
@@ -40,13 +40,26 @@ const Footer = () => {
             <div>
               <h4 className="font-display text-lg text-foreground mb-4">Quick Links</h4>
               <ul className="space-y-2">
-                {["Services", "Pricing", "About Us", "Contact"].map((link) => (
-                  <li key={link}>
-                    <a href="#" className="text-muted-foreground hover:text-gold transition-colors">
-                      {link}
+                  <li>
+                    <a href="#services" className="text-muted-foreground hover:text-gold transition-colors">
+                      Services
                     </a>
                   </li>
-                ))}
+                  <li>
+                    <a href="#pricing" className="text-muted-foreground hover:text-gold transition-colors">
+                      Pricing
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/gallery" className="text-muted-foreground hover:text-gold transition-colors">
+                      Gallery
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/admin" className="text-muted-foreground hover:text-gold transition-colors">
+                      Login
+                    </a>
+                  </li>
               </ul>
             </div>
 
@@ -54,8 +67,8 @@ const Footer = () => {
             <div>
               <h4 className="font-display text-lg text-foreground mb-4">Contact Us</h4>
               <ul className="space-y-2 text-muted-foreground">
-                <li>acscleaning@gmail.com</li>
-                <li>+1 (555) 123-4567</li>
+                <li>avtaarcleaningsol96@gmail.com</li>
+                <li>+91 9548808149</li>
                 <li>Chhapraula</li>
                 <li>India </li>
               </ul>
@@ -66,18 +79,10 @@ const Footer = () => {
 
       {/* Bottom bar */}
       <div className="bg-cream bg-[#C6AC8F] py-6 px-4">
-        <div className="max-w-7xl mx-auto flex  flex-col md:flex-row justify-between items-center gap-4">
+        <div className="max-w-7xl mx-auto flex md:flex-row justify-center items-center gap-4">
           <p className="text-black text-sm">
-            © 2024 ACS Premium Cleaning Services. All rights reserved.
+            © {currentYear} Avtaar Cleaning Services. All rights reserved.
           </p>
-          <div className="flex gap-6">
-            <a href="#" className=" text-black hover:text-primary-foreground text-sm transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#" className=" text-black hover:text-primary-foreground text-sm transition-colors">
-              Terms of Service
-            </a>
-          </div>
         </div>
       </div>
     </footer>
