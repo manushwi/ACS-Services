@@ -136,13 +136,13 @@ const Navbar = () => {
 
           {/* Actions */}
           <div className="flex items-center gap-4">
-            <button
+            {/* <button
               onClick={() => navigate("/admin/login")}
               className="text-sm font-medium text-white hover:text-zinc-300 transition hidden sm:block"
               title="Admins only"
             >
               Login
-            </button>
+            </button> */}
 
             <button
               onClick={() => {

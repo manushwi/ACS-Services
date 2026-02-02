@@ -67,8 +67,8 @@ export default function AdminDashboard() {
     runCleanup();
   }, [data]);
 
-  if (loading) return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
-  if (error) return <div className="min-h-screen flex items-center justify-center text-red-600">{error}</div>;
+  if (loading) return <div className="min-h-screen flex items-center justify-center px-4">Loading...</div>;
+  if (error) return <div className="min-h-screen flex items-center justify-center text-red-600 px-4">{error}</div>;
 
   const openWhatsApp = (phoneNumber, message) => {
     // Clean phone number: remove spaces, dashes, parentheses, plus signs
@@ -150,13 +150,14 @@ export default function AdminDashboard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7efe5] p-8">
+    <div className="min-h-screen bg-[#f7efe5] p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <h1 className="text-3xl font-bold text-[#2b1d14]">Admin Dashboard</h1>
+        {/* Header */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4 sm:mb-6">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3">
+            <h1 className="text-2xl sm:text-3xl font-bold text-[#2b1d14]">Admin Dashboard</h1>
             <button
-              className="px-3 py-1.5 rounded-md bg-[#f7efe5] text-[#2b1d14] text-xs font-semibold hover:bg-[#f7efe5]/80 border border-[#2b1d14]/20"
+              className="px-3 py-1.5 rounded-md bg-[#f7efe5] text-[#2b1d14] text-xs font-semibold hover:bg-[#f7efe5]/80 border border-[#2b1d14]/20 w-fit"
               onClick={() => navigate("/")}
             >
               Go to Home
@@ -174,9 +175,12 @@ export default function AdminDashboard() {
             </button>
           </div>
         </div>
-        <p className="text-[#2b1d14]/70 mb-8">Review all registration entries.</p>
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex gap-2">
+
+        <p className="text-[#2b1d14]/70 mb-6 sm:mb-8 text-sm sm:text-base">Review all registration entries.</p>
+        
+        {/* Filters and Sort */}
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+          <div className="flex flex-wrap gap-2">
             <button
               onClick={() => setFilter("all")}
               className={`px-3 py-1.5 rounded-md text-xs font-semibold border ${filter === "all" ? "bg-[#2b1d14] text-[#f7efe5] border-[#2b1d14]" : "bg-[#f7efe5] text-[#2b1d14] border-[#2b1d14]/20"}`}
@@ -196,11 +200,11 @@ export default function AdminDashboard() {
               Rejected
             </button>
           </div>
-          <div>
+          <div className="w-full sm:w-auto">
             <select
               value={sortOrder}
               onChange={(e) => setSortOrder(e.target.value)}
-              className="px-3 py-1.5 rounded-md bg-[#f7efe5] text-[#2b1d14] text-xs font-semibold border border-[#2b1d14]/20"
+              className="w-full sm:w-auto px-3 py-1.5 rounded-md bg-[#f7efe5] text-[#2b1d14] text-xs font-semibold border border-[#2b1d14]/20"
             >
               <option value="newest">Newest first</option>
               <option value="oldest">Oldest first</option>
@@ -208,7 +212,8 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Registration Cards Grid */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {([...data]
             .filter((item) => {
               const s = item.status || "pending";
@@ -224,37 +229,62 @@ export default function AdminDashboard() {
           ).map((item, index) => (
             <div
               key={item.id ?? index}
-              className={`rounded-2xl shadow-lg p-6 ${
+              className={`rounded-2xl shadow-lg p-4 sm:p-6 ${
                 filter === "all" && (item.status || "pending") === "approved" ? "bg-green-50" : "bg-white"
               } ${filter === "all" && (item.status || "pending") === "rejected" ? "opacity-50" : ""}`}
             >
-              <div className="flex items-center justify-between mb-2">
-                <h2 className={`text-xl font-semibold text-[#2b1d14] ${filter === "all" && (item.status || "pending") === "rejected" ? "line-through" : ""}`}>{item.name}</h2>
-                <span className="text-xs text-[#2b1d14]/60">{new Date(item.created_at ?? item.createdAt).toLocaleString()}</span>
+              {/* Card Header */}
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+                <h2 className={`text-lg sm:text-xl font-semibold text-[#2b1d14] break-words ${filter === "all" && (item.status || "pending") === "rejected" ? "line-through" : ""}`}>
+                  {item.name}
+                </h2>
+                <span className="text-xs text-[#2b1d14]/60 whitespace-nowrap">
+                  {new Date(item.created_at ?? item.createdAt).toLocaleString(undefined, {
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                  })}
+                </span>
               </div>
+
+              {/* Card Details */}
               <div className={`space-y-2 text-sm text-[#2b1d14] ${filter === "all" && (item.status || "pending") === "rejected" ? "line-through" : ""}`}>
-                <div>
-                  <span className="font-semibold">Phone:</span>{" "}
+                <div className="flex flex-wrap items-start gap-1">
+                  <span className="font-semibold">Phone:</span>
                   <a 
                     href={`tel:${item.phone}`} 
-                    className="text-blue-600 hover:text-blue-800 underline"
+                    className="text-blue-600 hover:text-blue-800 underline break-all"
                   >
                     {item.phone}
                   </a>
                 </div>
-                <div><span className="font-semibold">Date of Work:</span> {item.date}</div>
-                <div>
+                <div className="flex flex-wrap gap-1">
+                  <span className="font-semibold">Date of Work:</span>
+                  <span>{item.date}</span>
+                </div>
+                <div className="flex flex-wrap gap-1">
                   <span className="font-semibold">
                     {item.category?.toLowerCase() === "sofa cleaning" ? "Units:" : "Area (sq.ft):"}
-                  </span> {item.units}
+                  </span>
+                  <span>{item.units}</span>
                 </div>
-                <div><span className="font-semibold">Address:</span> {item.address}</div>
-                <div><span className="font-semibold">Category:</span> {item.category}</div>
+                <div className="flex flex-wrap gap-1">
+                  <span className="font-semibold">Address:</span>
+                  <span className="break-words">{item.address}</span>
+                </div>
+                <div className="flex flex-wrap gap-1">
+                  <span className="font-semibold">Category:</span>
+                  <span>{item.category}</span>
+                </div>
               </div>
-              <div className="mt-4 flex gap-3 justify-end">
+
+              {/* Action Buttons */}
+              <div className="mt-4 flex flex-col sm:flex-row gap-2 sm:gap-3 sm:justify-end">
                 <button
                   onClick={() => handleApprove(item.id)}
-                  className="px-3 py-1.5 rounded-md bg-green-600 text-white text-xs font-semibold hover:bg-green-700 disabled:opacity-60"
+                  className="w-full sm:w-auto px-3 py-1.5 rounded-md bg-green-600 text-white text-xs font-semibold hover:bg-green-700 disabled:opacity-60"
                   disabled={approving === item.id || (item.status || "pending") !== "pending"}
                 >
                   {approving === item.id
@@ -265,7 +295,7 @@ export default function AdminDashboard() {
                 </button>
                 <button
                   onClick={() => handleReject(item.id)}
-                  className="px-3 py-1.5 rounded-md bg-red-500 text-white text-xs font-semibold hover:bg-red-700 disabled:opacity-60"
+                  className="w-full sm:w-auto px-3 py-1.5 rounded-md bg-red-500 text-white text-xs font-semibold hover:bg-red-700 disabled:opacity-60"
                   disabled={rejecting === item.id || (item.status || "pending") !== "pending"}
                 >
                   {rejecting === item.id
@@ -278,8 +308,10 @@ export default function AdminDashboard() {
             </div>
           ))}
         </div>
+
+        {/* Empty State */}
         {data.length === 0 && (
-          <div className="text-center text-[#2b1d14]/70 mt-10">No registrations yet.</div>
+          <div className="text-center text-[#2b1d14]/70 mt-10 text-sm sm:text-base">No registrations yet.</div>
         )}
       </div>
     </div>

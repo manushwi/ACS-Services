@@ -1,4 +1,4 @@
-
+import { useState, useEffect } from "react";
 import './App.css'
 import LandingPage from './pages/LandingPage'
 import ServicesCarousel from './pages/ServicesCarousel'
@@ -12,25 +12,40 @@ import AdminDashboard from './pages/AdminDashboard';
 import Gallery from './pages/Gallery';
 import FaqPage from './pages/Faqpage';
 import Follow from './components/Follow';
-
+import Preloader from "./components/Preloader";
+import GalleryPreview from "./components/GalleryPreview";
 
 function App() {
-  
+  const [loading, setLoading] = useState(true);
+
+  // Optional fallback in case animation callback fails
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 4200);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <BrowserRouter>
-      <RouterContent />
-    </BrowserRouter>
+    <>
+      {loading && <Preloader onFinish={() => setLoading(false)} />}
+
+      {!loading && (
+        <BrowserRouter>
+          <RouterContent />
+        </BrowserRouter>
+      )}
+    </>
   )
 }
 
 function RouterContent() {
   const location = useLocation();
   const isAdminRoute = location.pathname.startsWith("/admin");
+
   return (
     <>
       {!isAdminRoute && <ResizableNavbar />}
       {!isAdminRoute && <Follow />}
+
       <Routes>
         <Route
           path="/"
@@ -39,6 +54,7 @@ function RouterContent() {
               <LandingPage />
               <ServicesCarousel />
               <ServicesBento />
+              <GalleryPreview />
               <FaqPage />
               <Footer />
             </>
@@ -48,9 +64,10 @@ function RouterContent() {
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/gallery" element={<Gallery />} />
       </Routes>
+
       <ToastHost />
     </>
   );
 }
 
-export default App
+export default App;

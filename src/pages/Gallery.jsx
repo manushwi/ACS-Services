@@ -1,18 +1,32 @@
 import React, { useState } from "react";
 import { X } from 'lucide-react';
 
-const images = [
-  "/srv1.png",
-  "/svr2.jpeg",
-  "/svr3.jpeg",
-  "/svr4.jpeg",
-  "/svr5.jpeg",
-  "/card2.jpg",
-  "/card3.jpg",
-  "/card4.jpg",
-  "/card5.jpg",
-  "/main1.jpg",
-  "/main2.jpg",
+const media = [
+  { src: "/srv1.png", type: "image" },
+  { src: "/svr2.jpeg", type: "image" },
+  { src: "/gallery/3.jpeg", type: "image" },
+  { src: "/gallery/4.jpeg", type: "image" },
+  { src: "/gallery/5.jpeg", type: "image" },
+  { src: "/gallery/6.jpeg", type: "image" },
+  { src: "/gallery/7.jpeg", type: "image" },
+  { src: "/svr3.jpeg", type: "image" },
+  { src: "/svr4.jpeg", type: "image" },
+  { src: "/svr5.jpeg", type: "image" },
+  { src: "/card2.jpg", type: "image" },
+  { src: "/gallery/1.mp4", type: "video" },
+  { src: "/gallery/2.mp4", type: "video" },
+  { src: "/card3.jpg", type: "image" },
+  { src: "/card4.jpg", type: "image" },
+  { src: "/gallery/3.mp4", type: "video" },
+  { src: "/card5.jpg", type: "image" },
+  { src: "/main1.jpg", type: "image" },
+  { src: "/main2.jpg", type: "image" },
+  { src: "/gallery/1.jpeg", type: "image" },
+  { src: "/gallery/2.jpeg", type: "image" },
+  { src: "/gallery/8.jpeg", type: "image" },
+  { src: "/gallery/4.mp4", type: "video" },
+  { src: "/gallery/9.jpeg", type: "image" },
+  { src: "/gallery/10.jpeg", type: "image" },
 ];
 
 export default function Gallery() {
@@ -20,11 +34,11 @@ export default function Gallery() {
 
   const prev = () => {
     if (openIndex === null) return;
-    setOpenIndex((openIndex + images.length - 1) % images.length);
+    setOpenIndex((openIndex + media.length - 1) % media.length);
   };
   const next = () => {
     if (openIndex === null) return;
-    setOpenIndex((openIndex + 1) % images.length);
+    setOpenIndex((openIndex + 1) % media.length);
   };
 
   return (
@@ -35,13 +49,34 @@ export default function Gallery() {
           <p className="text-[#2b1d14]/70">Explore our work across all services.</p>
         </div>
         <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 [column-fill:_balance]">
-          {images.map((src, idx) => (
+          {media.map((item, idx) => (
             <button
-              key={src + idx}
+              key={item.src + idx}
               onClick={() => setOpenIndex(idx)}
-              className="mb-4 block w-full rounded-xl overflow-hidden focus:outline-none"
+              className="mb-4 block w-full rounded-xl overflow-hidden focus:outline-none relative"
             >
-              <img src={src} alt="" className="w-full h-auto object-cover hover:opacity-90 transition" loading="lazy" />
+              {item.type === "image" ? (
+                <img 
+                  src={item.src} 
+                  alt="" 
+                  className="w-full h-auto object-cover hover:opacity-90 transition" 
+                  loading="lazy" 
+                />
+              ) : (
+                <video 
+                  src={item.src} 
+                  className="w-full h-auto object-cover hover:opacity-90 transition"
+                  muted
+                  playsInline
+                />
+              )}
+              {item.type === "video" && (
+                <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                  <div className="w-12 h-12 rounded-full bg-white/80 flex items-center justify-center">
+                    <div className="w-0 h-0 border-l-8 border-l-[#2b1d14] border-y-6 border-y-transparent ml-1"></div>
+                  </div>
+                </div>
+              )}
             </button>
           ))}
         </div>
@@ -57,15 +92,28 @@ export default function Gallery() {
           <button
             onClick={prev}
             className="absolute left-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white text-[#2b1d14] text-xl font-bold flex items-center justify-center"
-            aria-label="Previous image"
+            aria-label="Previous media"
           >
             ‹
           </button>
-          <img src={images[openIndex]} alt="" className="max-h-[80vh] max-w-[90vw] rounded-xl shadow-2xl" />
+          {media[openIndex].type === "image" ? (
+            <img 
+              src={media[openIndex].src} 
+              alt="" 
+              className="max-h-[80vh] max-w-[90vw] rounded-xl shadow-2xl" 
+            />
+          ) : (
+            <video 
+              src={media[openIndex].src} 
+              controls 
+              autoPlay
+              className="max-h-[80vh] max-w-[90vw] rounded-xl shadow-2xl"
+            />
+          )}
           <button
             onClick={next}
             className="absolute right-6 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white text-[#2b1d14] text-xl font-bold flex items-center justify-center"
-            aria-label="Next image"
+            aria-label="Next media"
           >
             ›
           </button>

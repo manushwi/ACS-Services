@@ -38,7 +38,7 @@ const Footer = () => {
 
             {/* Quick Links */}
             <div>
-              <h4 className="font-display text-lg text-foreground mb-4">Quick Links</h4>
+              <h4 className="font-display text-lg text-white mb-4">Quick Links</h4>
               <ul className="space-y-2">
                   <li>
                     <a href="#services" className="text-muted-foreground hover:text-gold transition-colors">
@@ -65,7 +65,7 @@ const Footer = () => {
 
             {/* Contact */}
             <div>
-              <h4 className="font-display text-lg text-foreground mb-4">Contact Us</h4>
+              <h4 className="font-display text-lg text-white mb-4">Contact Us</h4>
               <ul className="space-y-2 text-muted-foreground">
                 <li>avtaarcleaningsol96@gmail.com</li>
                 <li>+91 9548808149</li>

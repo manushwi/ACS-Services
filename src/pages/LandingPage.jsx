@@ -4,7 +4,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const LandingPage = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-
+  const [preloaderComplete, setPreloaderComplete] = useState(false);
   const cards = [
     {
       id: 1,

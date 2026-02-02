@@ -2,34 +2,34 @@ import { useState } from "react";
 
 const faqs = [
   {
-    question: "Where is R K Marble location?",
+    question: "What services does Avtaar Cleaning Solutions provide?",
     answer:
-      "R K Marble has warehouses in Kishangarh, Rajasthan and Gurugram, Haryana. We also have a Stone Art Gallery & Showroom in Mayapuri, New Delhi.",
+      "We offer professional cleaning and polishing services including sofa dry cleaning, carpet cleaning, deep cleaning, and marble diamond polishing for homes, offices, and commercial spaces.",
   },
   {
-    question: "What is special about marble?",
+    question: "Do you provide services for both residential and commercial spaces?",
     answer:
-      "Marble is known for its natural beauty, durability, elegance, and timeless appeal. Each slab is unique with natural veining and patterns.",
+      "Yes! We serve homes, offices, and commercial properties, ensuring a fresh, hygienic, and sparkling environment for every space.",
   },
   {
-    question: "How is marble formed in nature?",
+    question: "What cleaning techniques and products do you use?",
     answer:
-      "Marble is formed when limestone undergoes metamorphism due to high pressure and temperature over millions of years beneath the Earth's surface.",
+      "We use advanced cleaning techniques and high-quality products that are safe, effective, and designed to deliver long-lasting cleanliness without damaging surfaces.",
   },
   {
-    question: "What type of rock is granite?",
+    question: "Is sofa and carpet cleaning done at home or off-site?",
     answer:
-      "Granite is an igneous rock formed from the slow crystallization of magma beneath the Earth’s surface.",
+      "Our sofa and carpet dry cleaning services are done on-site, so you don’t have to worry about moving furniture or long drying times.",
   },
   {
-    question: "How to check the quality of marble?",
+    question: "Do you use water for cleaning? Will my furniture take time to dry?",
     answer:
-      "Quality can be checked by examining surface cracks, uniformity, water absorption, polish, and hardness of the stone.",
+      "We primarily use dry and low-moisture cleaning methods, which means minimal water usage and faster drying times.",
   },
   {
-    question: "Where to use imported marble?",
+    question: "Why should I choose Avtaar Cleaning Solutions?",
     answer:
-      "Imported marble is ideal for luxury interiors such as flooring, walls, countertops, staircases, and feature areas.",
+      "We are committed to quality, excellence, and customer satisfaction. Our goal is to give your space a fresh, spotless, and sparkling look—every single time.",
   },
 ];
 
