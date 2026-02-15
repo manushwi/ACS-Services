@@ -100,10 +100,10 @@ export default function AdminDashboard() {
       try { window.dispatchEvent(new CustomEvent("toast", { detail: { message: "Marked as approved" } })); } catch (e) { console.error(e); }
       // Open WhatsApp with approval message
       if (item.phone) {
-        openWhatsApp(item.phone, "Hello " + item.name + "," +
+        openWhatsApp(item.phone, "Hello " + item.name + ", " +
           "Your registration has been successfully confirmed for " + item.category + " scheduled on " + item.date + ". " +
-          "We look forward to seeing you!" + 
-          "Regards," +
+          "We look forward to seeing you! " + 
+          "Regards, " +
           "Team ACS"
         );
       }
