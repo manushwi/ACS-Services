@@ -14,6 +14,7 @@ import FaqPage from './pages/Faqpage';
 import Follow from './components/Follow';
 import Preloader from "./components/Preloader";
 import GalleryPreview from "./components/GalleryPreview";
+import LogoMarquee from "./components/LogoMarquee";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -44,7 +45,7 @@ function RouterContent() {
   return (
     <>
       {!isAdminRoute && <ResizableNavbar />}
-      {!isAdminRoute && <Follow />}
+      {/* {!isAdminRoute && <Follow />} */}
 
       <Routes>
         <Route
@@ -54,6 +55,7 @@ function RouterContent() {
               <LandingPage />
               <ServicesCarousel />
               <ServicesBento />
+              <LogoMarquee/>
               <GalleryPreview />
               <FaqPage />
               <Footer />

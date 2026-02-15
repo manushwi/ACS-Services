@@ -62,7 +62,7 @@ const ServicesBento = () => {
         </div>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="z-5 grid grid-cols-1 md md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* First row - 3 cards */}
           {services.slice(0, 3).map((service, index) => (
             <div

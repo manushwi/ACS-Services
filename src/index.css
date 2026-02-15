@@ -115,3 +115,7 @@
 .animate-scale-fade-in {
   animation: scale-fade-in 0.8s ease-out forwards;
 }
+
+.marquee {
+  animation: marquee 28s linear infinite;
+}

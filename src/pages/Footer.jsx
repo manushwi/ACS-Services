@@ -1,8 +1,9 @@
 const currentYear = new Date().getFullYear();
+import { FaTwitter, FaLinkedin, FaGithub, FaFacebookF, FaInstagram } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <footer id='footer' className="relative">
+    <footer id='footer' className="relative z-0">
       {/* Dark marble section */}
       <div
         className="relative py-20 px-4 bg-black md:px-8"
@@ -78,13 +79,29 @@ const Footer = () => {
       </div>
 
       {/* Bottom bar */}
-      <div className="bg-cream bg-[#C6AC8F] py-6 px-4">
-        <div className="max-w-7xl mx-auto flex md:flex-row justify-center items-center gap-4">
-          <p className="text-black text-sm">
-            © {currentYear} Avtaar Cleaning Services. All rights reserved.
-          </p>
-        </div>
-      </div>
+      {/* Bottom bar */}
+<div className="bg-black border-t border-neutral-800 py-6 px-4">
+  <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
+
+    {/* Left text */}
+    <p className="text-neutral-400 text-sm">
+      © Avtaar Cleaning Solutions
+    </p>
+
+    {/* Social Icons */}
+    <div className="flex items-center gap-6 text-neutral-400 text-lg">
+      <a href="https://www.facebook.com/profile.php?id=61557508110988" target="_blank" rel="noopener noreferrer"
+        className="hover:text-white transition">
+        <FaFacebookF />
+      </a>
+      <a href="https://www.instagram.com/acs_servicess?utm_source=qr&igsh=MW5janI4bnppMmxyeQ%3D%3D" target="_blank" rel="noopener noreferrer"
+        className="hover:text-white transition">
+        <FaInstagram />
+      </a>
+    </div>
+  </div>
+</div>
+
     </footer>
   );
 };

@@ -1,0 +1,197 @@
+.preload-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  overflow: hidden;
+}
+
+.preload-container svg {
+  width: 100%;
+  height: 100%;
+}
+
+.vi-mask-group {
+  transform-origin: 50% 50%;
+  animation: viAnimation 4s ease-in-out forwards;
+}
+
+@keyframes viAnimation {
+  0% {
+    transform:  scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform:  scale(10);
+    opacity: 0;
+  }
+}
+
+/* Fixed overlay content */
+.overlay-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 101;
+  pointer-events: none;
+}
+
+/* Logo section at top */
+.logo-section {
+  position: absolute;
+  bottom: 3%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: fadeInDown 1s ease-out forwards;
+}
+
+.company-logo {
+  width: 250px;
+  height: 250px;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: fadeInUp 1s ease-out forwards;
+  animation-delay: 0.4s;
+  opacity: 0;
+}
+
+/* Center ACS text */
+.center-text {
+  animation: fadeInScale 1s ease-out forwards;
+  animation-delay: 0.2s;
+  opacity: 0;
+}
+
+.company-name {
+  font-size: 12rem;
+  font-weight: 900;
+  color: #b8b8b8;
+  letter-spacing: 0.5rem;
+  margin: 0;
+  text-shadow: 0 0 40px rgba(184, 184, 184, 0.3);
+  font-family: Arial Black, sans-serif;
+  line-height: 1;
+}
+
+/* Full form section at bottom */
+.fullform-section {
+  position: absolute;
+  bottom: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: fadeInUp 1s ease-out forwards;
+  animation-delay: 0.4s;
+  opacity: 0;
+}
+
+.company-fullform {
+  font-size: 1.25rem;
+  color: #ffffff;
+  letter-spacing: 0.3rem;
+  margin: 0;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* Animations */
+@keyframes fadeInDown {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .logo-section {
+    top: 12%;
+  }
+
+  .company-logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .company-name {
+    font-size: 8rem;
+    letter-spacing: 0.3rem;
+  }
+
+  .fullform-section {
+    bottom: 25%;
+  }
+
+  .company-fullform {
+    font-size: 1rem;
+    letter-spacing: 0.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .logo-section {
+    top: 10%;
+  }
+
+  .company-logo {
+    width: 70px;
+    height: 70px;
+  }
+
+  .company-name {
+    font-size: 5rem;
+    letter-spacing: 0.2rem;
+  }
+
+  .fullform-section {
+    bottom: 20%;
+  }
+
+  .company-fullform {
+    font-size: 0.8rem;
+    letter-spacing: 0.2rem;
+  }
+}
