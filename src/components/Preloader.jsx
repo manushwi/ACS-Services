@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../Pages/PreloadAnimation.css';
+import '../pages/PreloadAnimation.css';
 
 function Preloader({ onComplete }) {
   const [isAnimating, setIsAnimating] = useState(true);
