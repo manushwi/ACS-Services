@@ -6,7 +6,7 @@ const services = [
     title: "Marble Diamond Polishing",
     description: "Restore the brilliant shine and luster of your marble surfaces with our professional diamond polishing services.",
     image: '/srv1.png',
-    price: '₹30-50/Sq.ft',
+    price: '₹15-100/Sq.ft',
   },
   {
     title: "Facade Cleaning",
@@ -18,7 +18,7 @@ const services = [
     title: "Carpet Deep Cleaning",
     description: "Advanced deep cleaning techniques that remove stains, allergens, and revive your carpets.",
     image: '/card3.jpg',
-    price: '₹15-30/Sq.ft',
+    price: '₹5-20/Sq.ft',
   },
   {
     title: "Sofa & Upholstery Care",
@@ -30,7 +30,7 @@ const services = [
     title: "Wooden Floor Polishing",
     description: "Professional upholstery cleaning that extends furniture life and maintains pristine appearance.",
     image: '/card2.jpg',
-    price: '₹150-200/Sq.ft',
+    price: '₹15-100/Sq.ft',
   },
 ];
 

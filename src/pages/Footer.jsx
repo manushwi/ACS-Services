@@ -70,7 +70,8 @@ const Footer = () => {
               <ul className="space-y-2 text-muted-foreground">
                 <li>avtaarcleaningsol96@gmail.com</li>
                 <li>+91 9548808149</li>
-                <li>Chhapraula</li>
+                <li>+91 8076789215</li>
+                <li>Chhapraula, Greater Noida</li>
                 <li>India </li>
               </ul>
             </div>

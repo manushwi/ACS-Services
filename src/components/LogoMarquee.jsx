@@ -1,12 +1,28 @@
 import React from "react";
 import "../index.css"
 const logos = [
-    "/brands/whatsapp.avif",
-    "/brands/airtel.avif",
-    "/brands/bookmyshow.avif",
-    "/brands/ola.avif",
-    "/brands/zomato.avif",
-    "/brands/blinkit.avif",
+    "/brands/1.jpeg",
+    "/brands/2.jpeg",
+    "/brands/3.jpeg",
+    "/brands/4.jpeg",
+    "/brands/5.jpeg",
+    "/brands/6.jpeg",
+    "/brands/7.jpeg",
+    "/brands/8.jpeg",
+    "/brands/9.jpeg",
+    "/brands/10.jpeg",
+    "/brands/11.jpeg",
+    "/brands/12.jpeg",
+    "/brands/13.jpeg",
+    "/brands/14.jpeg",
+    "/brands/15.jpeg",
+    "/brands/16.jpeg",
+    "/brands/17.jpeg",
+    "/brands/18.jpeg",
+    "/brands/19.jpeg",
+    "/brands/20.jpeg",
+    "/brands/21.jpeg",
+    "/brands/22.jpeg",
 ];
 
 const LogoMarquee = () => {
@@ -26,7 +42,7 @@ const LogoMarquee = () => {
                             <img
                                 src={logo}
                                 alt="brand"
-                                className="max-h-10 max-w-[120px] object-contain opacity-70 hover:opacity-100 transition duration-300 grayscale hover:grayscale-0"
+                                className="max-h-20 max-w-[120px] object-contain  hover:opacity-100 transition duration-300 hover:grayscale-0"
                             />
                         </div>
                     ))}
