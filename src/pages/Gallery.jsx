@@ -25,8 +25,14 @@ const media = [
   { src: "/gallery/2.jpeg", type: "image" },
   { src: "/gallery/8.jpeg", type: "image" },
   { src: "/gallery/4.mp4", type: "video" },
+  { src: "/gallery/5.mp4", type: "video" },
+  { src: "/gallery/6.mp4", type: "video" },
+  { src: "/gallery/7.mp4", type: "video" },
   { src: "/gallery/9.jpeg", type: "image" },
   { src: "/gallery/10.jpeg", type: "image" },
+  { src: "/gallery/11.jpeg", type: "image" },
+  { src: "/gallery/12.jpeg", type: "image" },
+  { src: "/gallery/13.jpeg", type: "image" },
 ];
 
 export default function Gallery() {
